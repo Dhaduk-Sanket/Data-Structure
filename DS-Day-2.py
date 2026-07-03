@@ -1,47 +1,43 @@
 #1. The Spam Detector (Linear Search)
 
-spam_list = [113, 288, 350, 400, 425]
+blacklist = ["abc111", "fake999", "spam123", "test456"]
 
-def linear_search(sender_id):
-    for i in range(len(spam_list)):
-        if spam_list[i] == sender_id:
-            return i
-    return -1
+sender = input("Enter sender ID: ")
 
-sender = 350
+found = False
 
-result = linear_search(sender)
+for i in blacklist:
+    if i == sender:
+        found = True
+        break
 
-if result != -1:
-    print("Spam sender found at position:", result)
+if found:
+    print("Spam Sender Found!")
 else:
-    print("Sender is not in spam list")
+    print("Safe Sender")
 
 
 #2. E-Commerce Price Filter (Binary Search - Lower Bound)
 
 prices = [22000, 29000, 39000, 55000, 65000, 80000]
 
-def lower_bound(arr, target):
-    left = 0
-    right = len(arr)
+target = int(input("Enter minimum price: "))
 
-    while left < right:
-        mid = (left + right) // 2
+low = 0
+high = len(prices) - 1
+answer = -1
 
-        if arr[mid] < target:
-            left = mid + 1
-        else:
-            right = mid
+while low <= high:
+    mid = (low + high) // 2
 
-    return left
+    if prices[mid] >= target:
+        answer = mid
+        high = mid - 1
+    else:
+        low = mid + 1
 
-target = 55000
-
-index = lower_bound(prices, target)
-
-if index < len(prices):
-    print("First product price >=", target, "is", prices[index])
+if answer != -1:
+    print("First product >= target is", prices[answer], "at index", answer)
 else:
     print("No product found")
 
@@ -51,29 +47,24 @@ else:
 list1 = [1, 3, 5, 7]
 list2 = [2, 4, 6, 8]
 
-def merge_lists(a, b):
-    result = []
-    i = 0
-    j = 0
+i = 0
+j = 0
+merged = []
 
-    while i < len(a) and j < len(b):
-        if a[i] < b[j]:
-            result.append(a[i])
-            i += 1
-        else:
-            result.append(b[j])
-            j += 1
-
-    while i < len(a):
-        result.append(a[i])
+while i < len(list1) and j < len(list2):
+    if list1[i] < list2[j]:
+        merged.append(list1[i])
         i += 1
-
-    while j < len(b):
-        result.append(b[j])
+    else:
+        merged.append(list2[j])
         j += 1
 
-    return result
+while i < len(list1):
+    merged.append(list1[i])
+    i += 1
 
-final_waitlist = merge_lists(list1, list2)
+while j < len(list2):
+    merged.append(list2[j])
+    j += 1
 
-print("Merged Waitlist:", final_waitlist)
+print("Merged List:", merged)
